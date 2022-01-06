@@ -11,8 +11,8 @@ local Towns = T{'Tavnazian Safehold','Al Zahbi','Aht Urhgan Whitegate','Nashmau'
 };
 
 local manager = {
-    is_open = {true,},
-    size = {410,170},
+    is_open = {false,},
+    size = {410,175},
     text_color = { 1.0, 0.75, 0.25, 1.0 },
     enabled = 'Disabled',
     runes = {{'Ignis',0},{'Gelus',0},{'Flabra',0},{'Tellus',0},{'Sulpor',0},{'Unda',0},{'Lux',0},{'Tenebrae',0}},
