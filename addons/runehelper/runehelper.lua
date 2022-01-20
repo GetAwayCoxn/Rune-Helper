@@ -26,9 +26,14 @@ ashita.events.register('d3d_present', 'present_cb', function ()
     local Player = AshitaCore:GetMemoryManager():GetPlayer();
 
     -- Force Disabled under these conditions
-    if (Area == nil) or (Towns:contains(Area)) or (Player:GetIsZoning() ~= 0) or ((Player:GetMainJob() ~= 22) and (Player:GetSubJob() ~= 22)) then 
+    if (Area == nil) or (Towns:contains(Area)) or (Player:GetIsZoning() ~= 0) or ((Player:GetMainJob() ~= 22) and (Player:GetSubJob() ~= 22)) or (AshitaCore:GetMemoryManager():GetParty():GetMemberHPPercent(0) < 1) then 
 		manager.enabled = 'Disabled';
 	end
+
+    -- Also force gui hide when zoning
+    if (Player:GetIsZoning() ~= 0) then
+        return;
+    end
 
     -- Do Work here if Enabled and before the is_open check
     if (manager.enabled == 'Enabled') then
@@ -162,12 +167,19 @@ end
 
 ashita.events.register('command', 'command_cb', function (e)
     local args = e.command:args();
-    if (#args == 0) then
+    if (#args == 0) or ((args[1] ~= '/runehelper') and (args[1] ~= '/rh')) then
         return;
     end
-    if (args[1] == '/runehelper') or (args[1] == '/rh') then
+
+    e.blocked = true;
+
+    if (#args <= 1) and ((args[1] == '/runehelper') or (args[1] == '/rh')) then
         manager.is_open[1] = not manager.is_open[1];
-    else
-        return;
+    elseif (#args >= 2 and args[2]:any('toggle')) then
+        if (manager.enabled == 'Enabled') then
+            manager.enabled = 'Disabled';
+        elseif (manager.enabled == 'Disabled') then
+            manager.enabled = 'Enabled';
+        end
     end
 end);
