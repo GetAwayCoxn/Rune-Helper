@@ -1,6 +1,6 @@
 addon.name      = 'runehelper';
 addon.author    = 'GetAwayCoxn';
-addon.version   = '1.0';
+addon.version   = '1.01';
 addon.desc      = 'Does runefencer things.';
 addon.link      = 'https://github.com/GetAwayCoxn/Rune-Helper';
 
@@ -17,7 +17,7 @@ local manager = {
     enabled = 'Disabled',
     runes = {{'Ignis',0},{'Gelus',0},{'Flabra',0},{'Tellus',0},{'Sulpor',0},{'Unda',0},{'Lux',0},{'Tenebrae',0}},
     menu_holders = {-1,-1,-1},
-    pulse = {0,},
+    pulse = {85,},
 };
 
 ashita.events.register('d3d_present', 'present_cb', function ()
@@ -51,6 +51,9 @@ ashita.events.register('d3d_present', 'present_cb', function ()
 			    if (buffString ~= nil) and (buffString == manager.runes[b][1]) then
                     manager.runes[b][2] = manager.runes[b][2] + 1;
                     total = total + 1;
+                end
+                if (buffString ~= nil) and (buffString == 'Mounted') then
+                    manager.enabled = 'Disabled';
                 end
             end
         end
